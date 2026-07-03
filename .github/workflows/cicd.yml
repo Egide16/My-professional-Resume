@@ -5,19 +5,22 @@ on:
         branches: ["main"]
 
 jobs:
-    build:
-        runs-on: ubuntu-latest # macos. windows-latest
-        steps:
-            - name: clone the code
-              uses: actions/checkout@v3
-            - name: build image
-                run: |
-                    docker build -t ntaconzoba/cicd-portfolio .
-            - name: docker login
-              uses: docker/login-action@v3  
-              with:
-                  username: ntaconzoba
-                  password: ${{ secrets.DOCKER_PASSWORD }}
-              name:
-                Docker push ntaconzoba/cicd-portfolio
+  build:
+    runs-on: ubuntu-latest # macos. windows-latest
+    steps:
+      - name: clone the code
+        uses: actions/checkout@v3
+
+      - name: build image
+        run:
+          docker build -t ntaconzoba/cicd-portfolio .
+
+      - name: docker login
+        uses: docker/login-action@v3
+        with:
+          username: ntaconzoba
+          password: ${{ secrets.DOCKER_PASSWORD }}
+          
+      - name: push docker image
+        run: docker push ntaconzoba/cicd-portfolio
 
